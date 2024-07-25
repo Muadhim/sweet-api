@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = () => {
 		<header className="w-full fixed top-2 z-50">
 			<Card className="flex glass max-w-[1200px] w-full h-14 mx-auto justify-between items-center p-4">
 				<h1
-					className="text-xl font-bold cursor-pointer"
+					className="text-xl font-bold cursor-pointer text-primary"
 					onClick={() => router.push("/")}
 				>
 					Sweet API
