@@ -11,15 +11,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Navigation from "./navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getFirstChar } from "@/utils/getFirstChar";
+import useUserStore from "@/store/user/userStore";
+import { useSession } from "next-auth/react";
 
 interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
 	const { setTheme } = useTheme();
 	const router = useRouter();
+	const pathname = usePathname();
+	const user = useUserStore((state: any) => state.user);
+	const { data: session, status } = useSession();
 
+	console.log("session: ", session);
 	return (
 		<header className="w-full fixed top-2 z-50">
 			<Card className="flex glass max-w-[1200px] w-full h-14 mx-auto justify-between items-center p-4">
@@ -31,7 +39,18 @@ const Header: React.FC<HeaderProps> = () => {
 				</h1>
 				<Navigation />
 				<div className="flex gap-2">
-					<Button onClick={() => router.push("/login")}>Login</Button>
+					{!!user?.user ? (
+						<Avatar>
+							<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+							<AvatarFallback>
+								{getFirstChar(user?.user?.name || "")}
+							</AvatarFallback>
+						</Avatar>
+					) : pathname.includes("signin") ? (
+						<Button onClick={() => router.push("/signup")}>Sign Up</Button>
+					) : (
+						<Button onClick={() => router.push("/signin")}>Sign In</Button>
+					)}
 
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
