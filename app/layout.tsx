@@ -2,10 +2,10 @@ import type { GetServerSidePropsContext, Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Providers from "./providers";
+import QueryProviders from "../components/query-providers";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import NextAuthProvider from "./next-auth-provider";
+import NextAuthProvider from "../components/next-auth-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +23,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<Providers>
+				<QueryProviders>
 					<NextAuthProvider>
 						<ThemeProvider
 							attribute="class"
@@ -38,7 +38,7 @@ export default function RootLayout({
 							<Footer />
 						</ThemeProvider>
 					</NextAuthProvider>
-				</Providers>
+				</QueryProviders>
 			</body>
 		</html>
 	);
