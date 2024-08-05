@@ -77,6 +77,8 @@
 	}
 }
 
+@import "style/not-found.css";
+
 .glass {
 	background: var(--glass-bg);
 	border-radius: var(--glass-border-radius);

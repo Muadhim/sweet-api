@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 
-const Register = () => {
+const SignUp = () => {
 	return <div className="text-center">Register</div>;
 };
 
-export default Register;
+export default SignUp;
