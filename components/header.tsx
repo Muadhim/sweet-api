@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getFirstChar } from "@/utils/getFirstChar";
 import useUserStore from "@/store/user/userStore";
 import { useSession } from "next-auth/react";
+import { signOut } from "@/auth";
 
 interface HeaderProps {}
 
@@ -39,17 +40,39 @@ const Header: React.FC<HeaderProps> = () => {
 				</h1>
 				<Navigation />
 				<div className="flex gap-2">
-					{!!user?.user ? (
-						<Avatar>
-							<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-							<AvatarFallback>
-								{getFirstChar(user?.user?.name || "")}
-							</AvatarFallback>
-						</Avatar>
+					{!!session?.user ? (
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="ghost" size="icon">
+									<Avatar>
+										<AvatarImage
+											src={session.user.image || ""}
+											alt="user-profile"
+										/>
+										<AvatarFallback>
+											{getFirstChar(session?.user?.name || "")}
+										</AvatarFallback>
+									</Avatar>
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<div className="w-[250px] text-sm p-2 gap-2 flex flex-col">
+									<p className="text-end truncate">{session.user.name}</p>
+									<p className="text-end truncate">{session.user.email}</p>
+									<Button
+										variant="default"
+										className="mt-6 mx-auto"
+										onClick={() => signOut({ redirectTo: "/sign-in" })}
+									>
+										Sign Out
+									</Button>
+								</div>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					) : pathname.includes("signin") ? (
-						<Button onClick={() => router.push("/signup")}>Sign Up</Button>
+						<Button onClick={() => router.push("/sign-up")}>Sign Up</Button>
 					) : (
-						<Button onClick={() => router.push("/signin")}>Sign In</Button>
+						<Button onClick={() => router.push("/sign-in")}>Sign In</Button>
 					)}
 
 					<DropdownMenu>

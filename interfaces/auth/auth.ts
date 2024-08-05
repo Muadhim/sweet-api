@@ -2,17 +2,19 @@ import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
 	interface User {
-		cognito_groups: string[];
-		access_token: string;
-		refresh_token: string;
-		id_token: string;
-		exp: number;
-		role: string;
+		accessToken?: string;
+		accessTokenExpires?: number;
+		userId?: string;
 	}
 
-	interface Session {
+	interface Session extends DefaultSession {
 		user: User & DefaultSession["user"];
-		expires: string;
-		error: string;
 	}
+}
+
+export interface Login {
+	id: number;
+	name: string;
+	email: string;
+	access_token: string;
 }

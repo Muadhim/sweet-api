@@ -2,7 +2,6 @@ import { baseUrl } from "@/constant";
 import ApiResponse from "@/interfaces/ApiResponse";
 import apiService from "@/services/apiService";
 import { api } from "@/services/axiosInstance";
-import { stat } from "fs";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
