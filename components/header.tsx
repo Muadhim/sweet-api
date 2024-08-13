@@ -16,8 +16,6 @@ import Navigation from "./navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getFirstChar } from "@/utils/getFirstChar";
 import useUserStore from "@/store/user/userStore";
-import { useSession } from "next-auth/react";
-import { signOut } from "@/auth";
 
 interface HeaderProps {}
 
@@ -26,8 +24,8 @@ const Header: React.FC<HeaderProps> = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const user = useUserStore((state: any) => state.user);
-	const { data: session, status } = useSession();
 
+	const session: any = ""
 	console.log("session: ", session);
 	return (
 		<header className="w-full fixed top-2 z-50">
@@ -62,7 +60,7 @@ const Header: React.FC<HeaderProps> = () => {
 									<Button
 										variant="default"
 										className="mt-6 mx-auto"
-										onClick={() => signOut({ redirectTo: "/sign-in" })}
+										// onClick={() => signOut({ redirectTo: "/sign-in" })}
 									>
 										Sign Out
 									</Button>
