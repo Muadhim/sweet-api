@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import QueryProviders from "../components/query-providers";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const access_token = cookieStore.get("access_token");
+
+  console.log("access_tokesssn:", access_token);
+
   return (
     <html lang="en">
       <body className={inter.className}>
