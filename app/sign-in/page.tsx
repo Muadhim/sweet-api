@@ -1,8 +1,8 @@
 import React from "react";
-import LoginView from "@/views/login";
+import SignInView from "@/views/signIn";
 
 const SignIn = () => {
-	return <LoginView />;
+  return <SignInView />;
 };
 
 export default SignIn;

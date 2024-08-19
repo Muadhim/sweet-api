@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import QueryProviders from "../components/query-providers";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Auth from "@/components/auth";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,11 +31,14 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange={false}
           >
-            <Header />
-            <main className="min-h-screen mt-20">
-              <div className="w-full max-w-[1200px] mx-auto">{children}</div>
-            </main>
-            <Footer />
+            <Auth>
+              <Header />
+              <main className="min-h-screen mt-20">
+                <div className="w-full max-w-[1200px] mx-auto">{children}</div>
+                <Toaster />
+              </main>
+              <Footer />
+            </Auth>
           </ThemeProvider>
         </QueryProviders>
       </body>
