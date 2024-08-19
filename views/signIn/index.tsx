@@ -4,13 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { redirect } from "next/navigation";
 import useSignInHooks from "./hooks";
 
 const SignInView = () => {
   const { method } = useSignInHooks();
-  const onSignIn = async (e: FormEvent<HTMLFormElement>) => {
-    // "use server";
+  const onSignIn = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
