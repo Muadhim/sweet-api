@@ -1,10 +1,11 @@
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { useSignIn } from "@/services/signIn";
-import { useAuthStore } from "@/store/auth/authStore";
-import useUserStore from "@/store/user/userStore";
 import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
+import { jwtDecode } from "jwt-decode";
 const useSignInHooks = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const { mutate } = useSignIn();
 
   const signIn = async ({
@@ -18,19 +19,18 @@ const useSignInHooks = () => {
       { email, password },
       {
         onSuccess: (data) => {
-          console.log("success");
-          document.cookie = `access_token=${data?.data?.access_token}; path=/;`;
-          useAuthStore.getState().setToken(data?.data?.access_token || "");
-          useUserStore.getState().setUser(data?.data);
+          const token = jwtDecode(data?.data?.access_token || "");
+          setCookie("user", data?.data, { maxAge: token?.exp || 0 * 1000 });
           toast({
-            title: "SignIn Success",
+            variant: "success",
+            title: "Sign In Success",
           });
           router.push("/dashboard");
-          // redirect("/dashboard");
         },
         onError: (error: any) => {
           toast({
-            title: "SignIn Failed",
+            variant: "destructive",
+            title: "Sign In Failed",
             description: error?.message,
           });
         },

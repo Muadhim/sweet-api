@@ -15,9 +15,8 @@ import { usePathname, useRouter } from "next/navigation";
 import Navigation from "./navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getFirstChar } from "@/utils/getFirstChar";
-import useUserStore from "@/store/user/userStore";
-import { cookies } from "next/headers";
-import getCookieClient from "@/utils/getCookieClient";
+import { getUserCookie } from "@/utils/userCookie";
+import { deleteCookie } from "cookies-next";
 
 interface HeaderProps {}
 
@@ -26,11 +25,7 @@ const Header: React.FC<HeaderProps> = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const cookie = useMemo(() => {
-    return getCookieClient("access_token");
-  }, []);
-  console.log("cocokee client: ", cookie);
-  const session: any = "";
+  const user = getUserCookie();
 
   return (
     <header className="w-full fixed top-2 z-50">
@@ -43,39 +38,44 @@ const Header: React.FC<HeaderProps> = () => {
         </h1>
         <Navigation />
         <div className="flex gap-2">
-          {!!session?.user ? (
+          {!!user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
                   <Avatar>
-                    <AvatarImage
-                      src={session.user.image || ""}
-                      alt="user-profile"
-                    />
+                    <AvatarImage src={user.image || ""} alt="user-profile" />
                     <AvatarFallback>
-                      {getFirstChar(session?.user?.name || "")}
+                      {getFirstChar(user?.name || "")}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <div className="w-[250px] text-sm p-2 gap-2 flex flex-col">
-                  <p className="text-end truncate">{session.user.name}</p>
-                  <p className="text-end truncate">{session.user.email}</p>
+                  <p className="text-end truncate">{user.name}</p>
+                  <p className="text-end truncate">{user.email}</p>
                   <Button
                     variant="default"
                     className="mt-6 mx-auto"
-                    // onClick={() => signOut({ redirectTo: "/sign-in" })}
+                    onClick={() => {
+                      deleteCookie("user");
+                      router.push("/sign-in");
+                    }}
                   >
                     Sign Out
                   </Button>
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : pathname.includes("signin") ? (
-            <Button onClick={() => router.push("/sign-up")}>Sign Up</Button>
           ) : (
-            <Button onClick={() => router.push("/sign-in")}>Sign In</Button>
+            <>
+              <Button variant="outline" onClick={() => router.push("/sign-up")}>
+                Sign Up
+              </Button>
+              {!pathname.includes("/sign-in") && (
+                <Button onClick={() => router.push("/sign-in")}>Sign In</Button>
+              )}
+            </>
           )}
 
           <DropdownMenu>

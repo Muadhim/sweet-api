@@ -5,7 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import QueryProviders from "../components/query-providers";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import { cookies } from "next/headers";
+import Auth from "@/components/auth";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +21,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  const access_token = cookieStore.get("access_token");
-
-  console.log("access_tokesssn:", access_token);
-
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -35,11 +31,14 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange={false}
           >
-            <Header />
-            <main className="min-h-screen mt-20">
-              <div className="w-full max-w-[1200px] mx-auto">{children}</div>
-            </main>
-            <Footer />
+            <Auth>
+              <Header />
+              <main className="min-h-screen mt-20">
+                <div className="w-full max-w-[1200px] mx-auto">{children}</div>
+                <Toaster />
+              </main>
+              <Footer />
+            </Auth>
           </ThemeProvider>
         </QueryProviders>
       </body>
