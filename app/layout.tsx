@@ -33,7 +33,7 @@ export default function RootLayout({
           >
             <Auth>
               <Header />
-              <main className="min-h-screen mt-20">
+              <main className="min-h-[calc(100vh-64px)] mt-20">
                 {children}
                 <Toaster />
               </main>

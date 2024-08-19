@@ -14,12 +14,14 @@ const Navbar = () => {
   return (
     <nav className="w-[300px]">
       <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="item-1">
-          <div className="flex items-center justify-between ">
-            <AccordionTrigger className="[&>svg.lucide-folder-kanban]:-rotate-0 [&>svg.lucide-chevron-down]:hidden flex gap-3">
+        <AccordionItem value="item-1" className="!border-none">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-3 items-center">
               <FolderKanban />
-              <h3 className="font-bold text-lg">Projects</h3>
-            </AccordionTrigger>
+              <AccordionTrigger className="[&>svg.lucide-folder-kanban]:-rotate-0 [&>svg.lucide-chevron-down]:hidden flex gap-3">
+                <h3 className="font-bold text-lg">Projects</h3>
+              </AccordionTrigger>
+            </div>
             <Plus
               className="cursor-pointer"
               onClick={() => router.push("/project")}

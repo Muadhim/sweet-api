@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import Navbar from "./components/navbar";
 
 export default function UserLayout({
@@ -6,7 +7,7 @@ export default function UserLayout({
   return (
     <section className="flex gap-3 px-2">
       <Navbar />
-      {children}
+      <Card className="w-full h-[calc(100vh-100px)] p-4">{children}</Card>
     </section>
   );
 }

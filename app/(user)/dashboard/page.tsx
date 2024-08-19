@@ -10,10 +10,11 @@ export const metadata: Metadata = {
 
 const Dashboard = () => {
   return (
-    <>
+    <div className="flex flex-col">
       <Breadcrumbs />
+      <br />
       <div>Dashboard</div>
-    </>
+    </div>
   );
 };
 
