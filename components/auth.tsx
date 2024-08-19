@@ -10,7 +10,7 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   const user = getUserCookie();
-  const token = user?.access_token;
+  const token = user?.access_token || "";
 
   useEffect(() => {
     // Redirect to '/sign-in' if the token is invalid or expired, and the user is not on the root page
@@ -29,7 +29,7 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
     }
   }, [token, pathname, router]);
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 };
 
 export default Auth;
