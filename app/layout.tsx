@@ -34,7 +34,7 @@ export default function RootLayout({
             <Auth>
               <Header />
               <main className="min-h-screen mt-20">
-                <div className="w-full max-w-[1200px] mx-auto">{children}</div>
+                {children}
                 <Toaster />
               </main>
               <Footer />
