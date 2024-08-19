@@ -1,12 +1,12 @@
 import Navbar from "./components/navbar";
 
 export default function UserLayout({
-	children,
+  children,
 }: Readonly<{ children: React.ReactNode }>) {
-	return (
-		<section>
-			<Navbar></Navbar>
-			{children}
-		</section>
-	);
+  return (
+    <section className="flex gap-3 px-2">
+      <Navbar />
+      {children}
+    </section>
+  );
 }
