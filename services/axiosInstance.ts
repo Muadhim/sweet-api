@@ -1,8 +1,10 @@
+import { getUserCookie } from "@/utils/userCookie";
 import axios, { AxiosInstance } from "axios";
 
 export const api: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL_ORIGIN,
   headers: {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${getUserCookie()?.access_token}`,
   },
 });

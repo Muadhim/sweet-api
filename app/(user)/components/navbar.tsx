@@ -7,10 +7,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FolderKanban, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { FolderKanban } from "lucide-react";
+import useProjectStore from "@/store/project";
+import useProjectHooks from "@/hooks/project/hooks";
+import { Skeleton } from "@/components/ui/skeleton";
+import CreateProjectDialog from "./createProjectDialog";
+
 const Navbar = () => {
-  const router = useRouter();
+  const projects = useProjectStore((state) => state.projects);
+  const { data } = useProjectHooks();
   return (
     <nav className="w-[300px]">
       <Accordion type="single" collapsible className="w-full">
@@ -22,13 +27,23 @@ const Navbar = () => {
                 <h3 className="font-bold text-lg">Projects</h3>
               </AccordionTrigger>
             </div>
-            <Plus
-              className="cursor-pointer"
-              onClick={() => router.push("/project")}
-            />
+            <CreateProjectDialog />
           </div>
-          <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
+          <AccordionContent className="flex flex-col gap-3 pl-5">
+            {data.isLoadingProjects && (
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            )}
+            {projects.map((p, i) => (
+              <h4
+                className="cursor-pointer hover:text-primary font-medium"
+                key={i.toString() + p.id.toString()}
+              >
+                {p.name}
+              </h4>
+            ))}
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
