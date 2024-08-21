@@ -1,20 +1,21 @@
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Metadata } from "next";
 import React from "react";
 
-const breadcrumbs = [
-	{ item: "test a", link: "" },
-	{ item: "test b", link: "" },
-	{ item: "test c", link: "" },
-	{ item: "test d", link: "" },
-];
+export const metadata: Metadata = {
+  title: "Dashboard | Sweet API",
+  description:
+    "Use the dashboard to manage your API keys, manage your APIs, and manage your team members.",
+};
 
 const Dashboard = () => {
-	return (
-		<>
-			<div>Dashboard</div>
-			<Breadcrumbs breadcrumbs={breadcrumbs} />
-		</>
-	);
+  return (
+    <div className="flex flex-col">
+      <Breadcrumbs />
+      <br />
+      <div>Dashboard</div>
+    </div>
+  );
 };
 
 export default Dashboard;
