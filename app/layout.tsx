@@ -7,11 +7,12 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Auth from "@/components/auth";
 import { Toaster } from "@/components/ui/toaster";
+import { appName } from "@/constant";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sweet API",
+  title: appName,
   description:
     "Use this API documentation app for free, no hidden fees or strings attached!",
 };
