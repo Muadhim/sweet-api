@@ -7,8 +7,8 @@ type State = {
 };
 
 type Actions = {
-  addProjects: (p: IProject[]) => void;
-  addProject: (p: IProject) => void;
+  setProjects: (p: IProject[]) => void;
+  setProject: (p: IProject) => void;
   reset: () => void;
 };
 
@@ -19,10 +19,10 @@ const initialState: State = {
 
 const useProjectStore = create<State & Actions>()((set, get) => ({
   ...initialState,
-  addProjects: (p: IProject[]) => {
+  setProjects: (p: IProject[]) => {
     set({ projects: p });
   },
-  addProject: (p: IProject) => {
+  setProject: (p: IProject) => {
     set({ project: p });
   },
   reset: () => {
