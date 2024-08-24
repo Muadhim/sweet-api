@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getFirstChar } from "@/utils/getFirstChar";
 import { getUserCookie } from "@/utils/userCookie";
 import { deleteCookie } from "cookies-next";
+import { appName } from "@/constant";
 
 interface HeaderProps {}
 
@@ -34,7 +35,7 @@ const Header: React.FC<HeaderProps> = () => {
           className="text-xl font-bold cursor-pointer text-primary"
           onClick={() => router.push("/")}
         >
-          Sweet API
+          {appName}
         </h1>
         <Navigation />
         <div className="flex gap-2">
