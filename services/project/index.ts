@@ -66,10 +66,23 @@ const deleteProject = async (id: number) => {
   return data;
 };
 
-const ueeGetProjects = () =>
+const getInviteLink = async (id: number) => {
+  const { data, status, message } = await apiService.get<IApiResponse<string>>(
+    api,
+    `${apiVersion}/project/${id}/invite`
+  );
+  if (status !== 200) throw new Error(message);
+  return data?.data;
+};
+
+const useGetProjects = () =>
   useQuery({ queryKey: ["projects"], queryFn: getProjects });
 const useGetProject = (id: number) =>
-  useQuery({ queryKey: ["project", id], queryFn: () => getProject(id) });
+  useQuery({
+    queryKey: ["project", id],
+    queryFn: () => getProject(id),
+    enabled: !!id,
+  });
 const useCreateProject = () =>
   useMutation({
     mutationKey: ["createProject"],
@@ -96,11 +109,19 @@ const useDeleteProject = () =>
     mutationFn: async (id: number) => await deleteProject(id),
   });
 
+const useGetInviteLink = (id: number) =>
+  useQuery({
+    queryKey: ["inviteLink", id],
+    queryFn: () => getInviteLink(id),
+    enabled: !!id,
+  });
+
 export {
-  ueeGetProjects,
+  useGetProjects,
   useGetProject,
   useCreateProject,
   useUpdateProjectMember,
   useDeleteProjectMember,
   useDeleteProject,
+  useGetInviteLink,
 };
