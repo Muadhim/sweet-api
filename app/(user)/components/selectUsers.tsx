@@ -68,7 +68,7 @@ const SelectUsers: React.FC<Props> = ({ setValues, values }) => {
           <div className="flex gap-2 flex-wrap">
             {values
               ? values.map((v) => (
-                  <Badge>
+                  <Badge key={v}>
                     {users.find((user) => user.value === v)?.label}
                     <CircleXIcon
                       onClick={() =>
