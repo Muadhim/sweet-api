@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FolderKanban } from "lucide-react";
+import { FolderKanban, Users } from "lucide-react";
 import useProjectStore from "@/store/project";
 import { Skeleton } from "@/components/ui/skeleton";
 import CreateProjectDialog from "./createProjectDialog";
@@ -53,7 +53,7 @@ const Navbar = () => {
         <AccordionItem value="item-2" className="!border-none">
           <div className="flex items-center justify-between">
             <div className="flex gap-3 items-center">
-              <FolderKanban />
+              <Users />
               <AccordionTrigger className="[&>svg.lucide-folder-kanban]:-rotate-0 [&>svg.lucide-chevron-down]:hidden flex gap-3">
                 <h3 className="font-bold text-lg">Groups</h3>
               </AccordionTrigger>

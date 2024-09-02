@@ -27,7 +27,7 @@ export function Breadcrumbs({
         <BreadcrumbItem>
           <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
         </BreadcrumbItem>
-        {breadcrumbs && <BreadcrumbSeparator />}
+        {breadcrumbs && breadcrumbs?.length >= 3 && <BreadcrumbSeparator />}
         {breadcrumbs &&
           breadcrumbs.map((br, idx) => (
             <React.Fragment key={idx}>
