@@ -76,7 +76,7 @@ const getInviteLink = async (id: number) => {
 };
 
 const useGetProjects = () =>
-  useQuery({ queryKey: ["projects"], queryFn: getProjects });
+  useQuery({ queryKey: ["projects"], queryFn: getProjects, staleTime: 0 });
 const useGetProject = (id: number) =>
   useQuery({
     queryKey: ["project", id],
