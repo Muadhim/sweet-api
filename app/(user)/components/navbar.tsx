@@ -13,10 +13,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import CreateProjectDialog from "./createProjectDialog";
 import { useGetProjectsHooks } from "@/hooks/project";
 import { useRouter } from "next/navigation";
+import useGroupStore from "@/store/group/indext";
+import useGetGroupsHooks from "@/hooks/group/getGroups";
 
 const Navbar = () => {
   const projects = useProjectStore((state) => state.projects);
-  const { data } = useGetProjectsHooks();
+  const groups = useGroupStore((state) => state.groups);
+  const { data: p } = useGetProjectsHooks();
+  const { data: g } = useGetGroupsHooks();
   const router = useRouter();
 
   return (
@@ -33,7 +37,7 @@ const Navbar = () => {
             <CreateProjectDialog />
           </div>
           <AccordionContent className="flex flex-col gap-3 pl-5">
-            {data.isLoadingProjects && (
+            {p.isLoading && (
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
@@ -61,7 +65,21 @@ const Navbar = () => {
             <CreateProjectDialog />
           </div>
           <AccordionContent className="flex flex-col gap-3 pl-5">
-            list group
+            {g.isLoading && (
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            )}
+            {groups.map((g, i) => (
+              <h4
+                className="cursor-pointer hover:text-primary font-medium"
+                key={i.toString() + g.id.toString()}
+                onClick={() => router.push(`/group/${g.id}`)}
+              >
+                {g.name}
+              </h4>
+            ))}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
