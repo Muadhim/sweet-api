@@ -7,7 +7,7 @@ const useCreateGroupHooks = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const createProject = (body: { name: string }) => {
+  const createGroup = (body: { name: string }) => {
     mutate(body, {
       onSuccess: () => {
         queryClient.invalidateQueries(["groups"]);
@@ -30,7 +30,7 @@ const useCreateGroupHooks = () => {
   return {
     data: { isLoading },
     method: {
-      createProject,
+      createGroup,
     },
   };
 };
