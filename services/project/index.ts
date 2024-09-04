@@ -16,7 +16,7 @@ const getProjects = async () => {
 const getProject = async (id: number) => {
   const { data, status, message } = await apiService.get<
     IApiResponse<IProject>
-  >(api, `${apiVersion}/projects/${id}`);
+  >(api, `${apiVersion}/project/${id}`);
   if (status !== 200) throw new Error(message);
   return data;
 };
@@ -76,7 +76,7 @@ const getInviteLink = async (id: number) => {
 };
 
 const useGetProjects = () =>
-  useQuery({ queryKey: ["projects"], queryFn: getProjects });
+  useQuery({ queryKey: ["projects"], queryFn: getProjects, staleTime: 0 });
 const useGetProject = (id: number) =>
   useQuery({
     queryKey: ["project", id],
