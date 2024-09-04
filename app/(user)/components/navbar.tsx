@@ -15,6 +15,7 @@ import { useGetProjectsHooks } from "@/hooks/project";
 import { useRouter } from "next/navigation";
 import useGroupStore from "@/store/group/indext";
 import useGetGroupsHooks from "@/hooks/group/getGroups";
+import CreateGroupDialog from "./createGroupDialog";
 
 const Navbar = () => {
   const projects = useProjectStore((state) => state.projects);
@@ -62,7 +63,7 @@ const Navbar = () => {
                 <h3 className="font-bold text-lg">Groups</h3>
               </AccordionTrigger>
             </div>
-            <CreateProjectDialog />
+            <CreateGroupDialog />
           </div>
           <AccordionContent className="flex flex-col gap-3 pl-5">
             {g.isLoading && (
