@@ -3,17 +3,17 @@ import useProjectStore from "@/store/project";
 import { useEffect } from "react";
 
 const useGetProjectsHooks = () => {
-  const { data: dataProjects, isLoading: isLoadingProjects } = useGetProjects();
+  const { data, isLoading } = useGetProjects();
   const setProjects = useProjectStore((state) => state.setProjects);
 
   useEffect(() => {
-    if (dataProjects && dataProjects.data) setProjects(dataProjects.data);
+    if (data && data.data) setProjects(data.data);
     else setProjects([]);
-  }, [dataProjects]);
+  }, [data]);
 
   return {
     data: {
-      isLoadingProjects,
+      isLoading,
     },
   };
 };
