@@ -34,6 +34,9 @@ const ProjectView: FC<Props> = ({ projectId }) => {
     methDel.deleteProject(projectId);
     router.push("/dashboard");
   };
+  const onClickProject = () => {
+    router.push(`/project/${projectId}/detail`);
+  };
 
   useEffect(() => {
     method.setPid(projectId);
@@ -79,7 +82,10 @@ const ProjectView: FC<Props> = ({ projectId }) => {
                   </DropdownMenu>
                 )}
               </div>
-              <div className="cursor-pointer flex w-full h-full justify-center items-center">
+              <div
+                className="cursor-pointer flex w-full h-full justify-center items-center"
+                onClick={onClickProject}
+              >
                 <p className="text-base line-clamp-3">{project.name}</p>
               </div>
             </Card>
