@@ -1,9 +1,11 @@
+import { TMethod } from "./Method";
+
 export interface IProjectTree {
   id: number;
   name: string;
   author_id: number;
-  type: string;
-  method: string;
+  type: "folder" | "api";
+  method: TMethod;
   children: IProjectTree[];
 }
 

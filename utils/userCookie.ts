@@ -1,5 +1,5 @@
 import { getCookie } from "cookies-next";
-import { IAuth } from "@/interfaces/auth";
+import { IAuth } from "@/interfaces/Auth";
 
 /**
  * Retrieves and parses the user cookie.

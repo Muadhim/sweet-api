@@ -1,4 +1,4 @@
-import { IUser } from "./user";
+import { IUser } from "./User";
 
 export interface IProject {
   id: number;

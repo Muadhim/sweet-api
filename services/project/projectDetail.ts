@@ -4,8 +4,9 @@ import IApiResponse from "@/interfaces/ApiResponse";
 import { api } from "../axiosInstance";
 import { apiVersion } from "@/constant";
 import { useMutation, useQuery } from "react-query";
+import { TMethod } from "@/interfaces/Method";
 
-const getProjectTree = async (id: number) => {
+const getProjectTree = async (id: number | null) => {
   const { data, status, message } = await apiService.get<
     IApiResponse<IProjectTreeResponse>
   >(api, `${apiVersion}/project/${id}/tree`);
@@ -53,7 +54,7 @@ const deleteFolder = async (id: number) => {
 const createApi = async (body: {
   name: string;
   folder_id: number;
-  method: "get" | "post" | "put" | "delete";
+  method: TMethod;
 }) => {
   const { data, status, message } = await apiService.post<IApiResponse<null>>(
     api,
@@ -67,7 +68,7 @@ const createApi = async (body: {
 const updateApi = async (body: {
   id: number;
   name: string;
-  method: "get" | "post" | "put" | "delete";
+  method: TMethod;
   folder_id: number;
 }) => {
   const { data, status, message } = await apiService.put<IApiResponse<null>>(
@@ -88,10 +89,11 @@ const deleteApi = async (id: number) => {
   return data;
 };
 
-const useGetProjectTree = (id: number) =>
+const useGetProjectTree = (id: number | null) =>
   useQuery({
     queryKey: ["projectTree", id],
     queryFn: () => getProjectTree(id),
+    enabled: !!id,
   });
 
 const useCreateFolder = () =>
@@ -123,11 +125,8 @@ const useDeleteFolder = () =>
 const useCreateApi = () =>
   useMutation({
     mutationKey: ["createApi"],
-    mutationFn: (body: {
-      name: string;
-      folder_id: number;
-      method: "get" | "post" | "put" | "delete";
-    }) => createApi(body),
+    mutationFn: (body: { name: string; folder_id: number; method: TMethod }) =>
+      createApi(body),
   });
 
 const useUpdateApi = () =>
@@ -136,7 +135,7 @@ const useUpdateApi = () =>
     mutationFn: (body: {
       id: number;
       name: string;
-      method: "get" | "post" | "put" | "delete";
+      method: TMethod;
       folder_id: number;
     }) => updateApi(body),
   });

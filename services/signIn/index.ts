@@ -2,7 +2,7 @@ import { useMutation } from "react-query";
 import apiService from "../apiService";
 import { api } from "../axiosInstance";
 import IApiResponse from "@/interfaces/ApiResponse";
-import { IAuth } from "@/interfaces/auth";
+import { IAuth } from "@/interfaces/Auth";
 import { apiVersion } from "@/constant";
 
 const signIn = async (params: { email: string; password: string }) => {
