@@ -19,14 +19,14 @@ const CreateProjectDialog = () => {
   const [users, setUsers] = useState<number[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, method } = useCreateProjectHooks();
+  const { createProject } = useCreateProjectHooks();
 
   const onSubmitProject = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name")?.toString() || "";
 
-    method.createProject({ name, member_ids: users });
+    createProject({ name, member_ids: users });
     setIsOpen(false);
   };
 

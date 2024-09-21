@@ -14,10 +14,8 @@ const useGetProjectHooks = () => {
   }, [data]);
 
   return {
-    data: {
-      isLoading,
-    },
-    method: { setPid },
+    isLoading,
+    setPid,
   };
 };
 

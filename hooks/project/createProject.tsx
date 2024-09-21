@@ -28,10 +28,8 @@ const useCreateProjectHooks = () => {
   };
 
   return {
-    data: { isLoading },
-    method: {
-      createProject,
-    },
+    isLoading,
+    createProject,
   };
 };
 export default useCreateProjectHooks;

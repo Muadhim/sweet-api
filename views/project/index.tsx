@@ -20,8 +20,8 @@ interface Props {
   projectId: number;
 }
 const ProjectView: FC<Props> = ({ projectId }) => {
-  const { data, method } = useGetProjectHooks();
-  const { data: del, method: methDel } = useDeleteProjectHooks();
+  const { isLoading, setPid } = useGetProjectHooks();
+  const { deleteProject } = useDeleteProjectHooks();
   const project = useProjectStore((state) => state.project);
   const user = getUserCookie();
   const router = useRouter();
@@ -31,7 +31,7 @@ const ProjectView: FC<Props> = ({ projectId }) => {
   }, [user, project]);
 
   const onClickDelete = () => {
-    methDel.deleteProject(projectId);
+    deleteProject(projectId);
     router.push("/dashboard");
   };
   const onClickProject = () => {
@@ -39,12 +39,12 @@ const ProjectView: FC<Props> = ({ projectId }) => {
   };
 
   useEffect(() => {
-    method.setPid(projectId);
+    setPid(projectId);
   });
 
   return (
     <>
-      {data.isLoading ? (
+      {isLoading ? (
         <div className="space-y-2">
           <Skeleton className="h-4 w-[250px]" />
           <div className="flex gap-4">

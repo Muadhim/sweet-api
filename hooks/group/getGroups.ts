@@ -12,7 +12,7 @@ const useGetGroupsHooks = () => {
   }, [data]);
 
   return {
-    data: { isLoading },
+    isLoading,
   };
 };
 export default useGetGroupsHooks;

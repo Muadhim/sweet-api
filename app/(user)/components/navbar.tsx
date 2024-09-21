@@ -20,8 +20,8 @@ import CreateGroupDialog from "./createGroupDialog";
 const Navbar = () => {
   const projects = useProjectStore((state) => state.projects);
   const groups = useGroupStore((state) => state.groups);
-  const { data: p } = useGetProjectsHooks();
-  const { data: g } = useGetGroupsHooks();
+  const { isLoading: isLoadingProject } = useGetProjectsHooks();
+  const { isLoading: isLoadingGroup } = useGetGroupsHooks();
   const router = useRouter();
 
   return (
@@ -38,7 +38,7 @@ const Navbar = () => {
             <CreateProjectDialog />
           </div>
           <AccordionContent className="flex flex-col gap-3 pl-5">
-            {p.isLoading && (
+            {isLoadingProject && (
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
@@ -66,7 +66,7 @@ const Navbar = () => {
             <CreateGroupDialog />
           </div>
           <AccordionContent className="flex flex-col gap-3 pl-5">
-            {g.isLoading && (
+            {isLoadingGroup && (
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />

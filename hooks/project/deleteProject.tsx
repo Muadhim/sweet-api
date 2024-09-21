@@ -26,12 +26,8 @@ const useDeleteProjectHooks = () => {
     });
   };
   return {
-    data: {
-      isLoading,
-    },
-    method: {
-      deleteProject,
-    },
+    isLoading,
+    deleteProject,
   };
 };
 

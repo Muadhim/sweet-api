@@ -12,9 +12,7 @@ const useGetProjectsHooks = () => {
   }, [data]);
 
   return {
-    data: {
-      isLoading,
-    },
+    isLoading,
   };
 };
 
