@@ -10,11 +10,13 @@ import {
 import { SquareChartGantt } from "lucide-react";
 import useProjectStore from "@/store/project";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetProjectsHooks } from "@/hooks/project";
+import useGetProjectTreeHooks from "@/hooks/project/getProjectTree";
+import ProjectTree from "./projectTree";
 
 const Navbar = () => {
   const project = useProjectStore((state) => state.project);
-  const { data: p } = useGetProjectsHooks();
+  const projectTree = useProjectStore((state) => state.projectTree);
+  const { isLoading } = useGetProjectTreeHooks();
 
   return (
     <nav className="w-[300px]">
@@ -24,26 +26,20 @@ const Navbar = () => {
             <div className="flex gap-3 items-center">
               <SquareChartGantt />
               <AccordionTrigger className="[&>svg.lucide-folder-kanban]:-rotate-0 [&>svg.lucide-chevron-down]:hidden flex gap-3">
-                <h3 className="font-bold text-lg">{project.name}</h3>
+                <h3 className="font-bold text-lg">
+                  {project.name || projectTree.project_name}
+                </h3>
               </AccordionTrigger>
             </div>
           </div>
           <AccordionContent className="flex flex-col gap-3 pl-5">
-            {p.isLoading && (
+            {isLoading && (
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
               </div>
             )}
-            {/* {projects.map((p, i) => (
-              <h4
-                className="cursor-pointer hover:text-primary font-medium"
-                key={i.toString() + p.id.toString()}
-                onClick={() => router.push(`/project/${p.id}`)}
-              >
-                {p.name}
-              </h4>
-            ))} */}
+            <ProjectTree trees={projectTree.project_tree} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
