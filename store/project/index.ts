@@ -6,12 +6,14 @@ type State = {
   projects: IProject[];
   project: IProject;
   projectTree: IProjectTreeResponse;
+  projectId: number;
 };
 
 type Actions = {
   setProjects: (p: IProject[]) => void;
   setProject: (p: IProject) => void;
   setProjectTree: (pt: IProjectTreeResponse) => void;
+  setProjectId: (id: number) => void;
   reset: () => void;
 };
 
@@ -19,6 +21,7 @@ const initialState: State = {
   projects: [],
   project: {} as IProject,
   projectTree: {} as IProjectTreeResponse,
+  projectId: 0,
 };
 
 const useProjectStore = create<State & Actions>()((set, get) => ({
@@ -31,6 +34,9 @@ const useProjectStore = create<State & Actions>()((set, get) => ({
   },
   setProjectTree: (pt: IProjectTreeResponse) => {
     set({ projectTree: pt });
+  },
+  setProjectId: (id: number) => {
+    set({ projectId: id });
   },
   reset: () => {
     set(initialState);

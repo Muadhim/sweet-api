@@ -10,6 +10,7 @@ interface props {
 }
 const ProjectDetailView: React.FC<props> = ({ projectId }) => {
   const projectTree = useProjectStore((state) => state.projectTree);
+  const setProjectId = useProjectStore((state) => state.setProjectId);
   const { setPid } = useGetProjectTreeHooks();
   const breadcrumbs = [
     { item: "Project", link: `/project/${projectId}` },
@@ -17,6 +18,7 @@ const ProjectDetailView: React.FC<props> = ({ projectId }) => {
   ];
   useEffect(() => {
     setPid(projectId);
+    setProjectId(projectId);
   }, [projectId]);
   return (
     <div className="flex flex-col">

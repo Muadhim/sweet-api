@@ -17,6 +17,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import useCreateFolderHooks from "@/hooks/project/createFolder";
+import useProjectStore from "@/store/project";
 interface Props {
   trees: IProjectTree[];
 }
@@ -29,6 +31,9 @@ const methodColors = {
 
 const ProjectTree: React.FC<Props> = ({ trees }) => {
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>({});
+  const [itemValue, setItemValue] = useState<IProjectTree>();
+  const projectId = useProjectStore((state) => state.projectId);
+  const { handleCreateFolder } = useCreateFolderHooks();
 
   const toggleFolder = (id: number) => {
     setOpenFolders((prev) => ({
@@ -38,6 +43,16 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
   };
 
   const handleItemClick = (data: any) => {};
+  const handleAddFolder = (folder: IProjectTree) => {
+    handleCreateFolder({
+      name: "New Folder",
+      project_id: projectId,
+      parent_id: folder.id,
+    });
+  };
+
+  const onClickRename = () => {};
+
   const renderTree = (tree: IProjectTree[]) => {
     return tree?.map((tr) => (
       <React.Fragment key={tr.id}>
@@ -60,6 +75,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
               <div className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="flex gap-2 items-center">
                   <Button
+                    onClick={() => handleAddFolder(tr)}
                     variant="ghost"
                     className="text-primary rounded font-medium text-xl h-fit w-fit p-0 hover:bg-background"
                   >
@@ -70,7 +86,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                     <PopoverTrigger>
                       <MoreHorizontal
                         className="text-primary font-thin cursor-pointer text-xs w-5 h-5"
-                        onClick={() => handleItemClick(tr)}
+                        onClick={() => setItemValue(tr)}
                       />
                     </PopoverTrigger>
                     <PopoverContent className="w-[200px] glass flex flex-col">
@@ -123,7 +139,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                 <PopoverTrigger>
                   <MoreHorizontal
                     className="text-primary font-thin cursor-pointer text-xs w-5 h-5"
-                    onClick={() => handleItemClick(tr)}
+                    onClick={() => setItemValue(tr)}
                   />
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] glass flex flex-col">

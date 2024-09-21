@@ -6,6 +6,7 @@ export interface IProjectTree {
   author_id: number;
   type: "folder" | "api";
   method: TMethod;
+  parent_id: number | null;
   children: IProjectTree[];
 }
 
