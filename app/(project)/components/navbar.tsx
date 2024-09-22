@@ -30,7 +30,7 @@ const Navbar = () => {
     });
   };
   return (
-    <nav className="w-[300px]">
+    <nav className="w-fit">
       <Accordion type="multiple" defaultValue={["item-1"]} className="w-full">
         <AccordionItem value="item-1" className="!border-none">
           <div className="flex items-center justify-between relative group">
@@ -55,7 +55,7 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <AccordionContent className="flex flex-col gap-3 pl-5">
+          <AccordionContent className="flex flex-col gap-3 pl-5 w-fit">
             {isLoading && (
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
