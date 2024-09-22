@@ -5,6 +5,7 @@ import { api } from "../axiosInstance";
 import { apiVersion } from "@/constant";
 import { useMutation, useQuery } from "react-query";
 import { TMethod } from "@/interfaces/Method";
+import { IProjectApi } from "@/interfaces/ProjectApi";
 
 const getProjectTree = async (id: number | null) => {
   const { data, status, message } = await apiService.get<
@@ -55,6 +56,7 @@ const createApi = async (body: {
   name: string;
   folder_id: number;
   method: TMethod;
+  project_id: number;
 }) => {
   const { data, status, message } = await apiService.post<IApiResponse<null>>(
     api,
@@ -70,6 +72,7 @@ const updateApi = async (body: {
   name: string;
   method: TMethod;
   folder_id: number;
+  project_id: number;
 }) => {
   const { data, status, message } = await apiService.put<IApiResponse<null>>(
     api,
@@ -80,10 +83,38 @@ const updateApi = async (body: {
   return data;
 };
 
-const deleteApi = async (id: number) => {
+const updateApiDetail = async (body: {
+  id: number;
+  name: string;
+  path: string;
+  method: TMethod;
+  folder_id: number;
+  header: string;
+  body: string;
+  example_request: string;
+  example_response: string;
+  project_id: number;
+}) => {
+  const { data, status, message } = await apiService.put<IApiResponse<null>>(
+    api,
+    `${apiVersion}/project-api/detail`,
+    body
+  );
+  if (status != 200 && status != 201) throw new Error(message);
+  return data;
+};
+const getApiDetail = async (path: { projectId: number; id: number }) => {
+  const { data, status, message } = await apiService.get<
+    IApiResponse<IProjectApi>
+  >(api, `${apiVersion}/project-api/${path.projectId}/${path.id}`);
+  if (status !== 200) throw new Error(message);
+  return data;
+};
+
+const deleteApi = async (id: number, projectId: number) => {
   const { data, status, message } = await apiService.delete<IApiResponse<null>>(
     api,
-    `${apiVersion}/project-api/${id}`
+    `${apiVersion}/project-api/${projectId}/${id}`
   );
   if (status !== 200) throw new Error(message);
   return data;
@@ -125,8 +156,12 @@ const useDeleteFolder = () =>
 const useCreateApi = () =>
   useMutation({
     mutationKey: ["createApi"],
-    mutationFn: (body: { name: string; folder_id: number; method: TMethod }) =>
-      createApi(body),
+    mutationFn: (body: {
+      name: string;
+      folder_id: number;
+      method: TMethod;
+      project_id: number;
+    }) => createApi(body),
   });
 
 const useUpdateApi = () =>
@@ -137,13 +172,39 @@ const useUpdateApi = () =>
       name: string;
       method: TMethod;
       folder_id: number;
+      project_id: number;
     }) => updateApi(body),
   });
 
 const useDeleteApi = () =>
   useMutation({
     mutationKey: ["deleteApi"],
-    mutationFn: (id: number) => deleteApi(id),
+    mutationFn: (path: { projectId: number; id: number }) =>
+      deleteApi(path.id, path.projectId),
+  });
+
+const useUpdateApiDetail = () =>
+  useMutation({
+    mutationKey: ["updateDetailApi"],
+    mutationFn: (body: {
+      id: number;
+      name: string;
+      path: string;
+      method: TMethod;
+      folder_id: number;
+      header: string;
+      body: string;
+      example_request: string;
+      example_response: string;
+      project_id: number;
+    }) => updateApiDetail(body),
+  });
+
+const useGetApiDetail = (path: { projectId: number; id: number }) =>
+  useQuery({
+    queryKey: ["getApiDetail", { ...path }],
+    queryFn: () => getApiDetail(path),
+    enabled: !!path.projectId && !!path.id,
   });
 
 export {
@@ -154,4 +215,6 @@ export {
   useCreateApi,
   useUpdateApi,
   useDeleteApi,
+  useUpdateApiDetail,
+  useGetApiDetail,
 };

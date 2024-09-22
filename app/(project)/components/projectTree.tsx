@@ -17,13 +17,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import useCreateFolderHooks from "@/hooks/project/createFolder";
 import useProjectStore from "@/store/project";
-import useDeleteFolderHooks from "@/hooks/project/deleteFolder";
-import useCreateApiHooks from "@/hooks/project/createApi";
-import useDeleteApiHooks from "@/hooks/project/deleteApi";
-import useUpdateFolderHooks from "@/hooks/project/updateFolder";
-import useUpdateApiHooks from "@/hooks/project/updateApi";
+import {
+  useCreateApiHooks,
+  useCreateFolderHooks,
+  useDeleteApiHooks,
+  useDeleteFolderHooks,
+  useUpdateApiHooks,
+  useUpdateFolderHooks,
+} from "@/hooks/project";
 interface Props {
   trees: IProjectTree[];
 }
@@ -79,11 +81,12 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
       name: "New Request",
       folder_id: folder.id,
       method: "get",
+      project_id: projectId,
     });
   };
 
   const onClickDelApi = (api: IProjectTree) => {
-    handleDeleteApi(api.id);
+    handleDeleteApi({ id: api.id, projectId });
   };
 
   const handleRename = (id: number, currentName: string) => {
@@ -104,6 +107,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
         name: newName.trim(),
         method: tr.method,
         folder_id: tr.parent_id || 0,
+        project_id: projectId,
       });
     setEditingId(null);
   };

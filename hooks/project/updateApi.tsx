@@ -11,6 +11,7 @@ const useUpdateApiHooks = () => {
     name: string;
     method: TMethod;
     folder_id: number;
+    project_id: number
   }) => {
     mutate(body, {
       onSuccess: () => {

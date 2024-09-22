@@ -9,6 +9,7 @@ const useCreateApiHooks = () => {
     name: string;
     folder_id: number;
     method: TMethod;
+    project_id: number;
   }) => {
     mutate(body, {
       onSuccess: () => {

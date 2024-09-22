@@ -1,4 +1,5 @@
 import { IProject } from "@/interfaces/Project";
+import { IProjectApi } from "@/interfaces/ProjectApi";
 import { IProjectTreeResponse } from "@/interfaces/ProjectTree";
 import { create } from "zustand";
 
@@ -7,6 +8,7 @@ type State = {
   project: IProject;
   projectTree: IProjectTreeResponse;
   projectId: number;
+  projectApi: IProjectApi;
 };
 
 type Actions = {
@@ -14,6 +16,7 @@ type Actions = {
   setProject: (p: IProject) => void;
   setProjectTree: (pt: IProjectTreeResponse) => void;
   setProjectId: (id: number) => void;
+  setProjectApi: (pa: IProjectApi) => void;
   reset: () => void;
 };
 
@@ -22,6 +25,7 @@ const initialState: State = {
   project: {} as IProject,
   projectTree: {} as IProjectTreeResponse,
   projectId: 0,
+  projectApi: {} as IProjectApi,
 };
 
 const useProjectStore = create<State & Actions>()((set, get) => ({
@@ -37,6 +41,9 @@ const useProjectStore = create<State & Actions>()((set, get) => ({
   },
   setProjectId: (id: number) => {
     set({ projectId: id });
+  },
+  setProjectApi: (pa: IProjectApi) => {
+    set({ projectApi: pa });
   },
   reset: () => {
     set(initialState);
