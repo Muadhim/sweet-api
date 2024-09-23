@@ -31,9 +31,10 @@ const JsonEditor: React.FC<Props> = ({ value, onChange, disabled }) => {
     if (textAreaRef.current) {
       textAreaRef.current.value = value;
       updateLineNumbers();
-      handlePretty();
     }
   }, [value]);
+
+  useEffect(() => handlePretty(), []);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event.target.value);
