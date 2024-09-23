@@ -24,7 +24,7 @@ const SignUpView = () => {
   };
 
   return (
-    <div className="-mx-3 mt-32">
+    <div className="-mx-3 mt-32 w-[calc(100vw-10px)]">
       <Card className="glass w-full m-3 h-[500px] max-w-[400px] mx-auto px-8 py-20 flex justify-center flex-col gap-4">
         <h1 className="text-center text-xl font-bold">SIGN UP</h1>
         <form

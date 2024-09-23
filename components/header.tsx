@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import { Card } from "./ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -70,9 +70,14 @@ const Header: React.FC<HeaderProps> = () => {
             </DropdownMenu>
           ) : (
             <>
-              <Button variant="outline" onClick={() => router.push("/sign-up")}>
-                Sign Up
-              </Button>
+              {!pathname.includes("/sign-up") && (
+                <Button
+                  variant="outline"
+                  onClick={() => router.push("/sign-up")}
+                >
+                  Sign Up
+                </Button>
+              )}
               {!pathname.includes("/sign-in") && (
                 <Button onClick={() => router.push("/sign-in")}>Sign In</Button>
               )}
