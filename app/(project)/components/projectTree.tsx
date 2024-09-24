@@ -23,9 +23,11 @@ import {
   useCreateFolderHooks,
   useDeleteApiHooks,
   useDeleteFolderHooks,
+  useGetApiDetailHooks,
   useUpdateApiHooks,
   useUpdateFolderHooks,
 } from "@/hooks/project";
+import { Input } from "@/components/ui/input";
 interface Props {
   trees: IProjectTree[];
 }
@@ -34,12 +36,15 @@ const methodColors = {
   post: "text-yellow-500",
   put: "text-blue-500",
   delete: "text-red-400",
+  patch: "text-violet-500",
 };
 
 const ProjectTree: React.FC<Props> = ({ trees }) => {
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>({});
   const [editingId, setEditingId] = useState<number | null>(null);
   const [newName, setNewName] = useState<string>("");
+  const { setId, setProjectId } = useGetApiDetailHooks();
+
   const projectId = useProjectStore((state) => state.projectId);
   const { handleCreateFolder } = useCreateFolderHooks();
   const { handleDeleteFolder } = useDeleteFolderHooks();
@@ -122,6 +127,10 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
     else if (e.key === "Escape") handleBlur();
   };
 
+  const handleClickApi = (api: IProjectTree) => {
+    setProjectId(projectId);
+    setId(api.id);
+  };
   const renderTree = (tree: IProjectTree[]) => {
     return tree?.map((tr) => (
       <React.Fragment key={tr.id}>
@@ -138,7 +147,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                   <Folder className="text-primary" />
                 )}
                 {editingId === tr.id ? (
-                  <input
+                  <Input
                     type="text"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
@@ -218,7 +227,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                 {tr.method}
               </p>
               {editingId === tr.id ? (
-                <input
+                <Input
                   type="text"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
@@ -231,6 +240,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                 <p
                   className="line-clamp-2 w-[150px] cursor-pointer"
                   onDoubleClick={() => handleRename(tr.id, tr.name)}
+                  onClick={() => handleClickApi(tr)}
                 >
                   {tr.name}
                 </p>

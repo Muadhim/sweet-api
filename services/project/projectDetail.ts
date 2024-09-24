@@ -89,8 +89,9 @@ const updateApiDetail = async (body: {
   path: string;
   method: TMethod;
   folder_id: number;
-  header: string;
-  body: string;
+  request: string;
+  response: string;
+  description: string;
   example_request: string;
   example_response: string;
   project_id: number;
@@ -192,8 +193,9 @@ const useUpdateApiDetail = () =>
       path: string;
       method: TMethod;
       folder_id: number;
-      header: string;
-      body: string;
+      request: string;
+      response: string;
+      description: string;
       example_request: string;
       example_response: string;
       project_id: number;

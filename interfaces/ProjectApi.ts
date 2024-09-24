@@ -8,8 +8,9 @@ export interface IProjectApi {
   update_by: number;
   method: TMethod;
   path: string;
-  header: string;
-  body: string;
+  request: string;
+  response: string;
+  description: string;
   example_request: string;
   example_response: string;
   project_id: number;

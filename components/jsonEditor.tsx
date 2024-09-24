@@ -34,7 +34,9 @@ const JsonEditor: React.FC<Props> = ({ value, onChange, disabled }) => {
     }
   }, [value]);
 
-  useEffect(() => handlePretty(), []);
+  useEffect(() => {
+    if (value) handlePretty();
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event.target.value);
