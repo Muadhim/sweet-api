@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddingItems from "./addingItems";
 import JsonEditor from "@/components/jsonEditor";
 import { Textarea } from "@/components/ui/textarea";
 
-const EditBody = () => {
-  const [formData, setFormData] = useState<Item[]>([]);
-  const [urlencoded, setUrlencoded] = useState<Item[]>([]);
-  const [jsonData, setJsonData] = useState<string>("");
-  const [xmlData, setXmlData] = useState<string>("");
+interface Props {
+  formData: Item[];
+  setFormData: (val: Item[]) => void;
+  urlencoded: Item[];
+  setUrlencoded: (val: Item[]) => void;
+  jsonData: string;
+  setJsonData: (val: string) => void;
+  xmlData: string;
+  setXmlData: (val: string) => void;
+}
+
+const EditBody: React.FC<Props> = ({
+  formData,
+  setFormData,
+  urlencoded,
+  setUrlencoded,
+  jsonData,
+  setJsonData,
+  xmlData,
+  setXmlData,
+}) => {
   return (
     <Tabs defaultValue="json" className="w-full">
       <TabsList>

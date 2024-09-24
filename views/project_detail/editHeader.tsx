@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import AddingItems from "./addingItems";
 
-const EditHeader = () => {
-  const [headers, setHeaders] = useState<Item[]>([]);
+interface Props {
+  headers: Item[];
+  setHeaders: (val: Item[]) => void;
+}
+const EditHeader: React.FC<Props> = ({ headers, setHeaders }) => {
   return (
     <div>
       <p>Headers</p>

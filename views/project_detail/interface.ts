@@ -3,15 +3,14 @@ interface ApiRequest {
   body: Body;
   headers: Item[];
 }
-interface ApiResponse {
-  resoponses: ResponseData[];
-}
 
 interface ResponseData {
-  status_code: number;
-  name: string;
-  content_type: string;
-  data_schema: string;
+  id?: string;
+  tab_name?: string;
+  status_code?: number;
+  name?: string;
+  content_type?: string;
+  data_schema?: string;
 }
 
 interface Item {
@@ -22,7 +21,6 @@ interface Item {
 }
 
 interface Body {
-  type: string;
   form_data?: Item[];
   url_encoded?: Item[];
   json_data?: string;

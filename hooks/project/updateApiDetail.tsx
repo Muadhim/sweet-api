@@ -21,7 +21,7 @@ const useUpdateApiDetailHooks = () => {
   }) => {
     mutate(body, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["projectTree", "getApiDetail"]);
+        queryClient.invalidateQueries(["getApiDetail"]);
       },
     });
   };

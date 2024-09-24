@@ -1,11 +1,12 @@
 import { TMethod } from "./Method";
+import { IUser } from "./User";
 
 export interface IProjectApi {
   id: number;
   name: string;
   folder_id: number;
-  author_id: number;
-  update_by: number;
+  author: IUser;
+  update_by: IUser;
   method: TMethod;
   path: string;
   request: string;

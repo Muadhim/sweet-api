@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import AddingItems from "./addingItems";
 
 interface Props {
-  value: Item[];
+  params: Item[];
+  setParams: (val: Item[]) => void;
 }
-const EditParams = () => {
-  const [params, setParams] = useState<Item[]>([]);
-  console.log("params: ", params);
+const EditParams: React.FC<Props> = ({ params, setParams }) => {
   return (
     <div>
       <p>Query Params</p>

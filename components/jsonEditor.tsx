@@ -7,7 +7,7 @@ import { Card } from "./ui/card";
 
 interface Props {
   value: string;
-  onChange: (val: string) => void;
+  onChange?: (val: string) => void;
   disabled?: boolean;
 }
 
@@ -20,7 +20,7 @@ const JsonEditor: React.FC<Props> = ({ value, onChange, disabled }) => {
     try {
       const parsedJson = JSON.parse(value);
       const prettyJson = JSON.stringify(parsedJson, null, 2);
-      onChange(prettyJson);
+      onChange?.(prettyJson);
       setError("");
     } catch (error) {
       setError(`Invalid JSON: ${error}`);
@@ -39,7 +39,7 @@ const JsonEditor: React.FC<Props> = ({ value, onChange, disabled }) => {
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onChange(event.target.value);
+    onChange?.(event.target.value);
     updateLineNumbers();
   };
   const updateLineNumbers = () => {
@@ -76,11 +76,13 @@ const JsonEditor: React.FC<Props> = ({ value, onChange, disabled }) => {
           onChange={handleChange}
           placeholder="Enter JSON here..."
           rows={10}
-          className="resize-none w-full p-2 focus:outline-none rounded-none"
+          className="resize-none w-full p-2 focus:outline-none rounded-none !opacity-100"
           disabled={disabled}
         />
       </Card>
-      {error && <p className="text-destructive font-light text-sm">{error}</p>}
+      {error && !disabled && (
+        <p className="text-destructive font-light text-sm">{error}</p>
+      )}
     </div>
   );
 };

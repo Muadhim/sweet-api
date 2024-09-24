@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import useProjectStore from "@/store/project";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -18,26 +18,98 @@ import EditHeader from "./editHeader";
 import { X } from "lucide-react";
 import JsonEditor from "@/components/jsonEditor";
 import TabPanel from "./tabPanel";
-
-const methodColors = {
-  get: "text-green-500",
-  post: "text-yellow-500",
-  put: "text-blue-500",
-  delete: "text-red-400",
-  patch: "text-violet-500",
-};
+import { useUpdateApiDetailHooks } from "@/hooks/project";
+import { methodColors } from "./constant";
 
 const ApiEditor = () => {
   const projectApi = useProjectStore((state) => state.projectApi);
   const [method, setMethod] = useState<string>(projectApi.method);
   const [path, setPath] = useState<string>(projectApi.path);
   const [desc, setDesc] = useState<string>(projectApi.description);
-  const [requestExample, setRequestExample] = useState<string>("");
-  const [responseExample, setResponseExample] = useState<string>("");
+  const [exampleRequest, setExampleRequest] = useState<string>("");
+  const [exampleResponse, setExampleResponse] = useState<string>("");
   const [isAddReqEx, setIsAddReqEx] = useState<boolean>(false);
   const [isAddResEx, setIsAddResEx] = useState<boolean>(false);
   const [responses, setResponses] = useState<ResponseData[]>([]);
-  console.log("responsees: ", responses);
+  const [reqParams, setReqPrams] = useState<Item[]>([]);
+  const [formData, setFormData] = useState<Item[]>([]);
+  const [urlencoded, setUrlencoded] = useState<Item[]>([]);
+  const [jsonData, setJsonData] = useState<string>("");
+  const [xmlData, setXmlData] = useState<string>("");
+  const [reqHeaders, setReqHeaders] = useState<Item[]>([]);
+
+  const { handleUpdateApiDetail, isLoading } = useUpdateApiDetailHooks();
+
+  const handleSaveApi = () => {
+    const req: ApiRequest = {
+      params: reqParams,
+      body: {
+        form_data: formData,
+        url_encoded: urlencoded,
+        json_data: jsonData,
+        xml: xmlData,
+      } as Body,
+      headers: reqHeaders,
+    };
+
+    handleUpdateApiDetail({
+      id: projectApi.id,
+      name: projectApi.name,
+      path: path,
+      method: method as TMethod,
+      folder_id: projectApi.folder_id,
+      request: JSON.stringify(req),
+      response: JSON.stringify(responses),
+      description: desc,
+      example_request: exampleRequest,
+      example_response: exampleResponse,
+      project_id: projectApi.project_id,
+    });
+  };
+
+  useEffect(() => {
+    if (projectApi) {
+      if (projectApi.response) {
+        try {
+          setResponses(JSON.parse(projectApi.response) as ResponseData[]);
+        } catch (error) {
+          if (typeof projectApi.response === "string")
+            setResponses([
+              {
+                data_schema: projectApi.response,
+                tab_name: projectApi.response.charAt(0).toUpperCase(),
+                id: projectApi.response.charAt(0).toUpperCase(),
+              },
+            ]);
+          else setResponses([]);
+        }
+      }
+      if (projectApi.request) {
+        let req: ApiRequest;
+        try {
+          req = JSON.parse(projectApi.request);
+        } catch {
+          req = {} as ApiRequest;
+        }
+        if (req.params) setReqPrams(req.params);
+        if (req.headers) setReqHeaders(req.headers);
+        if (req.body) {
+          if (req.body.form_data) setFormData(req.body.form_data);
+          if (req.body.url_encoded) setUrlencoded(req.body.url_encoded);
+          if (req.body.json_data) setJsonData(req.body.json_data);
+          if (req.body.xml) setXmlData(req.body.xml);
+        }
+      }
+      if (projectApi.path) setPath(projectApi.path);
+      if (projectApi.method) setMethod(projectApi.method);
+      if (projectApi.description) setDesc(projectApi.description);
+      if (projectApi.example_request)
+        setExampleRequest(projectApi.example_request);
+      if (projectApi.example_response)
+        setExampleResponse(projectApi.example_response);
+    }
+  }, [projectApi]);
+
   return (
     <div className="w-full border rounded-xl p-2">
       <div className="border rounded-lg flex w-full">
@@ -69,7 +141,9 @@ const ApiEditor = () => {
           value={path}
           onChange={(e) => setPath(e.target.value)}
         />
-        <Button className="rounded-l-none">Save</Button>
+        <Button className="rounded-l-none" onClick={handleSaveApi}>
+          Save
+        </Button>
       </div>
       <br />
       <Textarea
@@ -79,47 +153,57 @@ const ApiEditor = () => {
         onChange={(e) => setDesc(e.target.value)}
       />
       <br />
-      <div>
-        <p className="font-bold text-primary py-2">Request</p>
-        <Tabs defaultValue="params" className="w-full">
-          <TabsList>
-            <TabsTrigger value="params" className="w-[100px]">
-              Params
-            </TabsTrigger>
-            <TabsTrigger value="body" className="w-[100px]">
-              Body
-            </TabsTrigger>
-            <TabsTrigger value="headers" className="w-[100px]">
-              Headers
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="params">
-            <EditParams />
-          </TabsContent>
-          <TabsContent value="body">
-            <EditBody />
-          </TabsContent>
-          <TabsContent value="headers">
-            <EditHeader />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <p className="font-bold text-primary py-2">Request</p>
+      <Tabs defaultValue="params" className="w-full">
+        <TabsList>
+          <TabsTrigger value="params" className="w-[100px]">
+            Params
+          </TabsTrigger>
+          <TabsTrigger value="body" className="w-[100px]">
+            Body
+          </TabsTrigger>
+          <TabsTrigger value="headers" className="w-[100px]">
+            Headers
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="params">
+          <EditParams params={reqParams} setParams={setReqPrams} />
+        </TabsContent>
+        <TabsContent value="body">
+          <EditBody
+            formData={formData}
+            setFormData={setFormData}
+            urlencoded={urlencoded}
+            setUrlencoded={setUrlencoded}
+            jsonData={jsonData}
+            setJsonData={setJsonData}
+            xmlData={xmlData}
+            setXmlData={setXmlData}
+          />
+        </TabsContent>
+        <TabsContent value="headers">
+          <EditHeader headers={reqHeaders} setHeaders={setReqHeaders} />
+        </TabsContent>
+      </Tabs>
       <div className="my-2">
-        {isAddReqEx ? (
-          <div className="relative">
-            <Button
-              variant="secondary"
-              className="h-8 text-destructive absolute top-0 left-0"
-              onClick={() => {
-                setIsAddReqEx(false);
-                setRequestExample("");
-              }}
-            >
-              <X />
-            </Button>
+        {isAddReqEx || exampleRequest ? (
+          <>
+            <p className="text-primary my-2">Example</p>
+            <div className="relative">
+              <Button
+                variant="secondary"
+                className="h-8 text-destructive absolute top-0 left-0"
+                onClick={() => {
+                  setIsAddReqEx(false);
+                  setExampleRequest("");
+                }}
+              >
+                <X />
+              </Button>
 
-            <JsonEditor value={requestExample} onChange={setRequestExample} />
-          </div>
+              <JsonEditor value={exampleRequest} onChange={setExampleRequest} />
+            </div>
+          </>
         ) : (
           <div className="w-full border rounded-lg flex justify-center items-center h-[200px]">
             <Button
@@ -132,26 +216,30 @@ const ApiEditor = () => {
           </div>
         )}
       </div>
-      <div>
-        <p className="font-bold text-primary py-2">Response</p>
-        <TabPanel />
-      </div>
+      <p className="font-bold text-primary py-2">Response</p>
+      <TabPanel responses={responses} setResponses={setResponses} />
       <div className="my-2">
-        {isAddResEx ? (
-          <div className="relative">
-            <Button
-              variant="secondary"
-              className="h-8 text-destructive absolute top-0 left-0"
-              onClick={() => {
-                setIsAddResEx(false);
-                setResponseExample("");
-              }}
-            >
-              <X />
-            </Button>
+        {isAddResEx || exampleResponse ? (
+          <>
+            <p className="text-primary my-2">Example</p>
+            <div className="relative">
+              <Button
+                variant="secondary"
+                className="h-8 text-destructive absolute top-0 left-0"
+                onClick={() => {
+                  setIsAddResEx(false);
+                  setExampleResponse("");
+                }}
+              >
+                <X />
+              </Button>
 
-            <JsonEditor value={responseExample} onChange={setResponseExample} />
-          </div>
+              <JsonEditor
+                value={exampleResponse}
+                onChange={setExampleResponse}
+              />
+            </div>
+          </>
         ) : (
           <div className="w-full border rounded-lg flex justify-center items-center h-[200px]">
             <Button
