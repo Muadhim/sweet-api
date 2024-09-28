@@ -1,8 +1,9 @@
+import { apiBaseUrl } from "@/constant";
 import { getUserCookie } from "@/utils/userCookie";
 import axios, { AxiosInstance } from "axios";
 
 export const api: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL_ORIGIN,
+  baseURL: apiBaseUrl,
   headers: {
     "Content-Type": "application/json",
   },

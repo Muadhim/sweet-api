@@ -9,9 +9,7 @@ const useGetInviteLinkHooks = () => {
       token,
       isLoading,
     },
-    method: {
-      setPid,
-    },
+    setPid,
   };
 };
 

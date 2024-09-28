@@ -12,9 +12,10 @@ import { useGetProjectHooks } from "@/hooks/project";
 import useDeleteProjectHooks from "@/hooks/project/deleteProject";
 import useProjectStore from "@/store/project";
 import { getUserCookie } from "@/utils/userCookie";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { FC, useEffect, useMemo } from "react";
+import AddMemeberDialog from "./addMemeberDialog";
 
 interface Props {
   projectId: number;
@@ -89,18 +90,26 @@ const ProjectView: FC<Props> = ({ projectId }) => {
                 <p className="text-base line-clamp-3">{project.name}</p>
               </div>
             </Card>
-            <Card className="cursor-pointer w-60 h-40 bg-primary-foreground flex flex-col gap-2 p-3">
-              <p className="text-start font-bold">Members</p>
-              <p className="text-center text-4xl flex justify-center items-center h-full">
-                {project?.members?.length || 0}
-              </p>
+            <Card className="w-60 h-40 bg-primary-foreground flex flex-col gap-2 p-3">
+              <div className="flex flex-row justify-between items-center mb-3">
+                <p className="text-start font-bold">Members</p>
+                {isAuthor && <AddMemeberDialog />}
+              </div>
+              <div
+                className="cursor-pointer flex w-full h-full justify-center items-center"
+                onClick={onClickProject}
+              >
+                <p className="text-4xl font-bold line-clamp-3">
+                  {project.members?.length || 0}
+                </p>
+              </div>
             </Card>
-            <Card className="cursor-pointer  w-60 h-40 bg-primary-foreground flex flex-col gap-2 p-3">
+            {/* <Card className="cursor-pointer  w-60 h-40 bg-primary-foreground flex flex-col gap-2 p-3">
               <p className="text-start font-bold">Group</p>
               <div className="flex w-full h-full justify-center items-center">
                 <p className="text-base line-clamp-3">group name</p>
               </div>
-            </Card>
+            </Card> */}
           </div>
         </>
       ) : (

@@ -98,38 +98,67 @@ const ApiView = () => {
       <div className="border rounded-lg p-2 h-fit min-h-[200px]">
         {projectApi.description}
       </div>
-      {(reqParams.length ||
-        reqHeaders.length ||
-        formData.length ||
-        urlencoded.length ||
-        jsonData ||
-        xmlData) && <p className="font-bold text-primary py-2">Request</p>}
+      {(reqParams.length > 0 ||
+        reqHeaders.length > 0 ||
+        formData.length > 0 ||
+        urlencoded.length > 0 ||
+        jsonData !== "" ||
+        xmlData !== "" ||
+        projectApi.example_request !== "") && (
+        <p className="font-bold text-primary py-2">Request</p>
+      )}
       {reqHeaders.length > 0 && (
         <>
           <p>Headers</p>
           <AddingItems values={reqHeaders} disabled />
         </>
       )}
-      {reqParams.length && (
+      {reqParams.length > 0 && (
         <>
           <p>Query params</p>
           <AddingItems values={reqParams} disabled />
         </>
       )}
-      {projectApi.example_request && (
+      {formData.length > 0 && (
+        <>
+          <p>form-data</p>
+          <AddingItems values={formData} disabled />
+        </>
+      )}
+      {urlencoded.length > 0 && (
+        <>
+          <p>x-www-form-urlencoded</p>
+          <AddingItems values={urlencoded} disabled />
+        </>
+      )}
+      {jsonData !== "" && (
+        <>
+          <p>json</p>
+          <JsonEditor value={jsonData} disabled />
+        </>
+      )}
+      {xmlData !== "" && (
+        <>
+          <p>xml</p>
+          <JsonEditor value={xmlData} disabled />
+        </>
+      )}
+
+      {projectApi.example_request !== "" && (
         <>
           <p>Example request</p>
           <JsonEditor value={projectApi.example_request} disabled />
         </>
       )}
-      {(projectApi.response.length || projectApi.example_response) && (
+      {(projectApi.response.length > 0 ||
+        projectApi.example_response !== "") && (
         <p className="font-bold text-primary py-2">Response</p>
       )}
 
-      {projectApi.response.length && (
+      {projectApi.response.length > 0 && (
         <TabPanel responses={responses} disabled />
       )}
-      {projectApi.example_response && (
+      {projectApi.example_response !== "" && (
         <>
           <p>Example response</p>
           <JsonEditor value={projectApi.example_response} disabled />

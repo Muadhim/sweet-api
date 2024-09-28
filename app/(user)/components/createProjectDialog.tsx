@@ -55,12 +55,12 @@ const CreateProjectDialog = () => {
             className="col-span-3"
             required
           />
-          <div className="w-full flex flex-col gap-2">
+          {/* <div className="w-full flex flex-col gap-2">
             <Label htmlFor="members" className="text-left">
-              Add members
+              Add members from group
             </Label>
             <SelectUsers setValues={setUsers} values={users} />
-          </div>
+          </div> */}
           <br />
           <DialogFooter>
             <Button variant="success" type="submit">

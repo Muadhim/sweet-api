@@ -17,6 +17,7 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
     if (
       pathname !== "/" &&
       pathname !== "/sign-up" &&
+      pathname !== "/join-project" &&
       (!token || isTokenExpired(token))
     ) {
       router.push("/sign-in");

@@ -37,7 +37,7 @@ const Navbar = () => {
             <div className="flex gap-3 items-center">
               <SquareChartGantt />
               <AccordionTrigger className="[&>svg.lucide-folder-kanban]:-rotate-0 [&>svg.lucide-chevron-down]:hidden flex gap-3">
-                <h3 className="font-bold text-lg">
+                <h3 className="font-bold text-lg w-[200px] line-clamp-2 text-left">
                   {project.name || projectTree.project_name}
                 </h3>
               </AccordionTrigger>

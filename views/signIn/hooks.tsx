@@ -1,12 +1,13 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useSignIn } from "@/services/signIn";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { jwtDecode } from "jwt-decode";
 const useSignInHooks = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { mutate } = useSignIn();
+  const joinProjectToken = getCookie("pToken") || "";
 
   const signIn = async ({
     email,
@@ -25,7 +26,9 @@ const useSignInHooks = () => {
             variant: "success",
             title: "Sign In Success",
           });
-          router.push("/dashboard");
+          joinProjectToken !== ""
+            ? router.push(`/join-project?token=${joinProjectToken}`)
+            : router.push("/dashboard");
         },
         onError: (error: any) => {
           toast({

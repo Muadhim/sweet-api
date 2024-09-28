@@ -74,7 +74,16 @@ const getInviteLink = async (id: number) => {
   if (status !== 200) throw new Error(message);
   return data?.data;
 };
-
+const joinProject = async (body: { token: string }) => {
+  const { data, status, message } = await apiService.post<IApiResponse<number>>(
+    api,
+    `${apiVersion}/project/join`,
+    body
+  );
+  console.log("message: ", message);
+  if (status !== 201 && status != 200) throw new Error(message);
+  return data;
+};
 const useGetProjects = () =>
   useQuery({ queryKey: ["projects"], queryFn: getProjects, staleTime: 0 });
 const useGetProject = (id: number) =>
@@ -114,6 +123,12 @@ const useGetInviteLink = (id: number) =>
     queryKey: ["inviteLink", id],
     queryFn: () => getInviteLink(id),
     enabled: !!id,
+    staleTime: 0,
+  });
+const useJoinProject = () =>
+  useMutation({
+    mutationKey: ["joinProject"],
+    mutationFn: (body: { token: string }) => joinProject(body),
   });
 
 export {
@@ -124,4 +139,5 @@ export {
   useDeleteProjectMember,
   useDeleteProject,
   useGetInviteLink,
+  useJoinProject,
 };
