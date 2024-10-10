@@ -92,7 +92,7 @@ const ApiView = () => {
         </p>
         <p>Upate By:</p>
         <p className="px-2 py-1 bg-primary/10 text-primary rounded-md">
-          {projectApi.update_by.name}
+          {projectApi?.update_by?.name}
         </p>
       </div>
       <div className="border rounded-lg p-2 h-fit min-h-[200px]">
