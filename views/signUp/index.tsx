@@ -5,9 +5,10 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import React from "react";
 import useSignUpHooks from "./hooks";
+import LoadingOverlay from "@/components/loadingOverlay";
 
 const SignUpView = () => {
-  const { method } = useSignUpHooks();
+  const { method, data } = useSignUpHooks();
   const { toast } = useToast();
   const onSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,6 +26,7 @@ const SignUpView = () => {
 
   return (
     <div className="-mx-3 mt-32 w-[calc(100vw-10px)]">
+      <LoadingOverlay isLoading={data.isLoading} />
       <Card className="glass w-full m-3 h-[500px] max-w-[400px] mx-auto px-8 py-20 flex justify-center flex-col gap-4">
         <h1 className="text-center text-xl font-bold">SIGN UP</h1>
         <form

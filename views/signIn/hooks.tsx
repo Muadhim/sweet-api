@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 const useSignInHooks = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { mutate } = useSignIn();
+  const { mutate, isLoading } = useSignIn();
   const joinProjectToken = getCookie("pToken") || "";
 
   const signIn = async ({
@@ -41,7 +41,7 @@ const useSignInHooks = () => {
     );
   };
   return {
-    data: {},
+    data: { isLoading },
     method: { signIn },
   };
 };

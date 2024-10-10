@@ -7,6 +7,7 @@ import {
   GitPullRequestCreate,
   MoreHorizontal,
   Pen,
+  Plus,
   Trash,
 } from "lucide-react";
 import React, { useState } from "react";
@@ -28,6 +29,7 @@ import {
   useUpdateFolderHooks,
 } from "@/hooks/project";
 import { Input } from "@/components/ui/input";
+import LoadingOverlay from "@/components/loadingOverlay";
 interface Props {
   trees: IProjectTree[];
 }
@@ -43,7 +45,11 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>({});
   const [editingId, setEditingId] = useState<number | null>(null);
   const [newName, setNewName] = useState<string>("");
-  const { setId, setProjectId } = useGetApiDetailHooks();
+  const {
+    setId,
+    setProjectId,
+    isLoading: isLoadingGetDetailApi,
+  } = useGetApiDetailHooks();
 
   const projectId = useProjectStore((state) => state.projectId);
   const { handleCreateFolder } = useCreateFolderHooks();
@@ -134,6 +140,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
   const renderTree = (tree: IProjectTree[]) => {
     return tree?.map((tr) => (
       <React.Fragment key={tr.id}>
+        <LoadingOverlay isLoading={isLoadingGetDetailApi} />
         {tr.type === "folder" ? (
           <>
             <div className="relative group flex items-center gap-2 w-[250px] hover:bg-primary/10 px-2 py-1 rounded">
@@ -171,9 +178,9 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                   <Button
                     onClick={() => onCreateFolder(tr)}
                     variant="ghost"
-                    className="text-primary rounded font-medium text-xl h-fit w-fit p-0 hover:bg-background"
+                    className="text-primary rounded font-medium text-xl h-fit w-fit p-0 hover:bg-transparent"
                   >
-                    +
+                    <Plus size={15} />
                   </Button>
 
                   <Popover>

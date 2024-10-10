@@ -20,6 +20,7 @@ import JsonEditor from "@/components/jsonEditor";
 import TabPanel from "./tabPanel";
 import { useUpdateApiDetailHooks } from "@/hooks/project";
 import { methodColors } from "./constant";
+import LoadingOverlay from "@/components/loadingOverlay";
 
 const ApiEditor = () => {
   const projectApi = useProjectStore((state) => state.projectApi);
@@ -112,6 +113,7 @@ const ApiEditor = () => {
 
   return (
     <div className="w-full border rounded-xl p-2">
+      <LoadingOverlay isLoading={isLoading} />
       <div className="border rounded-lg flex w-full">
         <Select onValueChange={setMethod} defaultValue={projectApi.method}>
           <SelectTrigger

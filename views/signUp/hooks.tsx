@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 const useSignUpHooks = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const { mutate } = useSignUp();
+  const { mutate, isLoading } = useSignUp();
 
   const signUp = ({
     user,
@@ -37,7 +37,7 @@ const useSignUpHooks = () => {
     );
   };
   return {
-    data: {},
+    data: { isLoading },
     method: { signUp },
   };
 };

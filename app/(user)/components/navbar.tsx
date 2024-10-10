@@ -55,7 +55,7 @@ const Navbar = () => {
             ))}
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="item-2" className="!border-none">
+        {/* <AccordionItem value="item-2" className="!border-none">
           <div className="flex items-center justify-between">
             <div className="flex gap-3 items-center">
               <Users />
@@ -82,7 +82,7 @@ const Navbar = () => {
               </h4>
             ))}
           </AccordionContent>
-        </AccordionItem>
+        </AccordionItem> */}
       </Accordion>
     </nav>
   );

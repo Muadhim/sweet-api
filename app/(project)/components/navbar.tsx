@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SquareChartGantt } from "lucide-react";
+import { Plus, SquareChartGantt } from "lucide-react";
 import useProjectStore from "@/store/project";
 import { Skeleton } from "@/components/ui/skeleton";
 import useGetProjectTreeHooks from "@/hooks/project/getProjectTree";
@@ -50,7 +50,7 @@ const Navbar = () => {
                   variant="ghost"
                   className="text-primary rounded font-medium text-xl h-fit w-fit p-0 hover:bg-background"
                 >
-                  +
+                  <Plus size={15} />
                 </Button>
               </div>
             </div>

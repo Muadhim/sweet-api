@@ -75,7 +75,7 @@ const ProjectView: FC<Props> = ({ projectId }) => {
                       <EllipsisVertical />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      {/* <DropdownMenuItem>Edit</DropdownMenuItem> */}
                       <DropdownMenuItem onClick={onClickDelete}>
                         Delete
                       </DropdownMenuItem>
