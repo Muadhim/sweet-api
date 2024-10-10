@@ -2,6 +2,7 @@
 
 import { isTokenExpired } from "@/utils/checkToken";
 import { getUserCookie } from "@/utils/userCookie";
+import { deleteCookie } from "cookies-next";
 import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -18,7 +19,8 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
       pathname !== "/" &&
       pathname !== "/sign-up" &&
       pathname !== "/join-project" &&
-      (!token || isTokenExpired(token))
+      pathname !== "/forgot-password" &&
+      (!token || (token && isTokenExpired(token)))
     ) {
       router.push("/sign-in");
     } else if (
@@ -28,6 +30,7 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
     ) {
       router.push("/dashboard");
     }
+    if (token && isTokenExpired(token)) deleteCookie("user");
   }, [token, pathname, router]);
 
   return <>{children}</>;
