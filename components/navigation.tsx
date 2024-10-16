@@ -61,7 +61,7 @@ export default function Navigation() {
                 Create documentation for your API.
               </ListItem>
               <ListItem title="Colaboration">
-                Add your friends to start a collaboration
+                Add your teams to start a collaboration
               </ListItem>
             </ul>
           </NavigationMenuContent>
