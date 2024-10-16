@@ -18,6 +18,7 @@ import { getFirstChar } from "@/utils/getFirstChar";
 import { getUserCookie } from "@/utils/userCookie";
 import { deleteCookie } from "cookies-next";
 import { appName } from "@/constant";
+import { IAuth } from "@/interfaces/Auth";
 
 interface HeaderProps {}
 
@@ -26,7 +27,7 @@ const Header: React.FC<HeaderProps> = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const user = getUserCookie();
+  const user: IAuth | null = getUserCookie();
 
   return (
     <header className="w-full fixed top-2 z-50">
