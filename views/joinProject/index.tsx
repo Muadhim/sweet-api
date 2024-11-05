@@ -30,7 +30,7 @@ const JoinProjectView = () => {
   };
   return (
     <div className="w-full h-screen">
-      <div className="w-full max-w-[1400px] mx-auto flex justify-center items-center flex-col">
+      <div className="w-full max-w-[1400px] mx-auto mx-auto flex justify-center items-center flex-col">
         <h1 className="font-bold my-10">
           Join the project and start collaborating together
         </h1>
