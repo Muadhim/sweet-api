@@ -43,7 +43,9 @@ const methodColors = {
 
 const ProjectTree: React.FC<Props> = ({ trees }) => {
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>({});
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editing, setEditing] = useState<{ id: number; type: string } | null>(
+    null
+  );
   const [newName, setNewName] = useState<string>("");
   const {
     setId,
@@ -100,8 +102,8 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
     handleDeleteApi({ id: api.id, projectId });
   };
 
-  const handleRename = (id: number, currentName: string) => {
-    setEditingId(id);
+  const handleRename = (id: number, currentName: string, type: string) => {
+    setEditing({ id, type });
     setNewName(currentName);
   };
 
@@ -120,10 +122,10 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
         folder_id: tr.parent_id || 0,
         project_id: projectId,
       });
-    setEditingId(null);
+    setEditing(null);
   };
 
-  const handleBlur = () => setEditingId(null);
+  const handleBlur = () => setEditing(null);
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -153,7 +155,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                 ) : (
                   <Folder className="text-primary" />
                 )}
-                {editingId === tr.id ? (
+                {editing?.id === tr.id && editing?.type === "folder" ? (
                   <Input
                     type="text"
                     value={newName}
@@ -166,7 +168,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                 ) : (
                   <p
                     className="line-clamp-2 w-[150px] cursor-pointer"
-                    onDoubleClick={() => handleRename(tr.id, tr.name)}
+                    onDoubleClick={() => handleRename(tr.id, tr.name, tr.type)}
                   >
                     {tr.name}
                   </p>
@@ -205,7 +207,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                       </Button>
                       <Separator />
                       <Button
-                        onClick={() => handleRename(tr.id, tr.name)}
+                        onClick={() => handleRename(tr.id, tr.name, tr.type)}
                         variant="ghost"
                         className="justify-start p-1 h-8 gap-2"
                       >
@@ -233,7 +235,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
               <p className={`${methodColors[tr.method]} font-bold`}>
                 {tr.method}
               </p>
-              {editingId === tr.id ? (
+              {editing?.id === tr.id && editing?.type === "api" ? (
                 <Input
                   type="text"
                   value={newName}
@@ -246,7 +248,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
               ) : (
                 <p
                   className="line-clamp-2 w-[150px] cursor-pointer"
-                  onDoubleClick={() => handleRename(tr.id, tr.name)}
+                  onDoubleClick={() => handleRename(tr.id, tr.name, tr.type)}
                   onClick={() => handleClickApi(tr)}
                 >
                   {tr.name}
@@ -261,7 +263,7 @@ const ProjectTree: React.FC<Props> = ({ trees }) => {
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] glass flex flex-col">
                   <Button
-                    onClick={() => handleRename(tr.id, tr.name)}
+                    onClick={() => handleRename(tr.id, tr.name, tr.type)}
                     variant="ghost"
                     className="justify-start p-1 h-8 gap-2"
                   >
