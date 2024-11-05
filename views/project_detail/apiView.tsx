@@ -41,12 +41,18 @@ const ApiView = () => {
           req = {} as ApiRequest;
         }
         if (req.params) setReqPrams(req.params);
+        else setReqPrams([]);
         if (req.headers) setReqHeaders(req.headers);
+        else setReqHeaders([]);
         if (req.body) {
           if (req.body.form_data) setFormData(req.body.form_data);
+          else setFormData([]);
           if (req.body.url_encoded) setUrlencoded(req.body.url_encoded);
+          else setUrlencoded([]);
           if (req.body.json_data) setJsonData(req.body.json_data);
+          else setJsonData("");
           if (req.body.xml) setXmlData(req.body.xml);
+          else setXmlData("");
         }
       }
     }
@@ -80,20 +86,29 @@ const ApiView = () => {
               })
             : ""}
         </p>
-        <p>Updated:</p>
-        <p className="px-2 py-1 bg-primary/10 text-primary rounded-md">
-          {projectApi.updated_at
-            ? new Date(projectApi.updated_at).toLocaleDateString("id-ID", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })
-            : ""}
-        </p>
-        <p>Upate By:</p>
-        <p className="px-2 py-1 bg-primary/10 text-primary rounded-md">
-          {projectApi?.update_by?.name}
-        </p>
+        {projectApi?.updated_at && (
+          <>
+            <p>Updated:</p>
+            <p className="px-2 py-1 bg-primary/10 text-primary rounded-md">
+              {projectApi.updated_at
+                ? new Date(projectApi.updated_at).toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
+                : ""}
+            </p>
+          </>
+        )}
+
+        {projectApi?.update_by?.name && (
+          <>
+            <p>Updated By:</p>
+            <p className="px-2 py-1 bg-primary/10 text-primary rounded-md">
+              {projectApi?.update_by?.name}
+            </p>
+          </>
+        )}
       </div>
       <div className="border rounded-lg p-2 h-fit min-h-[200px]">
         {projectApi.description}
